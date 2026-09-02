@@ -1,0 +1,33 @@
+# Python
+__pycache__/
+*.py[cod]
+*.so
+*.egg-info/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Virtual environments and native builds
+.venv/
+venv/
+build/
+dist/
+cmake-build-*/
+
+# Datasets and generated paper artifacts
+data/
+datasets/
+results/
+paper_artifacts/
+*.bag
+*.db3
+*.mcap
+*.zip
+*.npy
+*.npz
+
+# Local editor and operating-system files
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db

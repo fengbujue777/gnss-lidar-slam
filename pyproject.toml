@@ -1,0 +1,51 @@
+[build-system]
+requires = ["scikit_build_core", "pybind11>=2.13,<3"]
+build-backend = "scikit_build_core.build"
+
+[project]
+name = "gnss-lidar-slam"
+version = "0.1.0"
+description = "Reliability-gated GNSS correction for KISS-SLAM"
+readme = "README.md"
+requires-python = ">=3.10"
+license = {file = "LICENSE"}
+dependencies = [
+    "kiss-icp>=1.2.3",
+    "map-closures>=2.0.2",
+    "numpy>=1.24",
+    "open3d>=0.19.0",
+    "pydantic>=2",
+    "pydantic-settings",
+    "PyYAML",
+    "rosbags==0.11.3",
+    "tqdm",
+    "typer>=0.12",
+]
+
+[project.optional-dependencies]
+paper = ["matplotlib>=3.7", "pillow>=10"]
+test = ["pytest>=8"]
+
+[project.scripts]
+gnss-lidar-slam = "gnss_lidar_slam.cli:run"
+gnss-lidar-slam-paper = "gnss_lidar_slam.paper:run"
+gnss-lidar-slam-dump-config = "kiss_slam.config.config:write_config"
+
+[tool.scikit-build]
+build-dir = "build/{wheel_tag}"
+cmake.version = ">=3.22"
+wheel.install-dir = "kiss_slam/kiss_slam_pybind/"
+wheel.packages = ["kiss_slam", "gnss_lidar_slam"]
+sdist.exclude = ["build", "results"]
+
+[tool.cibuildwheel]
+archs = ["auto64"]
+skip = ["*-musllinux*", "pp*", "cp36-*", "cp37-*", "cp38-*", "cp39-*"]
+
+[tool.cibuildwheel.config-settings]
+"cmake.define.USE_SYSTEM_EIGEN3" = "OFF"
+"cmake.define.USE_SYSTEM_G2O" = "OFF"
+"cmake.define.USE_SYSTEM_TSL-ROBIN-MAP" = "OFF"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
